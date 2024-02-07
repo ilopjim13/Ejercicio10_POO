@@ -1,26 +1,26 @@
 
 fun clearConsoleOk(num: Int) {
-    (1..num).forEach{ println() }
+    (1..num).forEach{ println(it) }
 }
 
-fun printRow(row: IntArray) {
-    // Mostrar una fila del tablero
-    println("| " + row.joinToString(" | ") { if (it == 0) " " else if (it == 1) "X" else "O" } + " |")
-    println("-------------")
-}
-
-fun printBoardOk(board: Array<IntArray>) {
-    // Mostrar en consola el tablero con las fichas
-    clearConsoleOk(15)
-    println("-------------")
-    board.forEach { printRow(it) }
-}
-
-fun createBoardOk(size: Int = 3) = Array(size) { IntArray(size) }
+//fun printRow(row: IntArray) {
+//    // Mostrar una fila del tablero
+//    println("| " + row.joinToString(" | ") { if (it == 0) " " else if (it == 1) "X" else "O" } + " |")
+//    println("-------------")
+//}
+//
+//fun printBoardOk(board: Array<IntArray>) {
+//    // Mostrar en consola el tablero con las fichas
+//    clearConsoleOk(15)
+//    println("-------------")
+//    board.forEach { printRow(it) }
+//}
+//
+//fun createBoardOk(size: Int = 3) = Array(size) { IntArray(size) }
 
 fun checkWinnerOk(board: Array<IntArray>): Int {
     // Comprobar si algún jugador ha ganado
-    for (i in 0 until 3) {
+    for (i in 0..<3) {
         if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != 0) {
             return board[i][0]
         }
@@ -37,10 +37,10 @@ fun checkWinnerOk(board: Array<IntArray>): Int {
     return 0
 }
 
-fun isBoardFullOk(board: Array<IntArray>): Boolean {
-    // Verificar si el tablero está lleno
-    return board.all { row -> row.all { it != 0 } }
-}
+//fun isBoardFullOk(board: Array<IntArray>): Boolean {
+//    // Verificar si el tablero está lleno
+//    return board.all { row -> row.all { it != 0 } }
+//}
 
 fun getInputOk(msj: String) : Int {
     print(msj)
@@ -88,23 +88,23 @@ fun switchPlayerOk(player: Int): Int {
 }
 
 fun juegoOk() {
-    val board = createBoardOk()
+    val tablero = Tablero.crearTablero()
     var currentPlayer = 1
 
     var winner = 0
     var endGame = false
 
     while (!endGame) {
-        printBoardOk(board)
-        placePieceOk(board, currentPlayer)
+        Tablero.imprimirTablero(tablero)
+        placePieceOk(tablero, currentPlayer)
 
-        winner = checkWinnerOk(board)
+        winner = checkWinnerOk(tablero)
         if (winner != 0) {
-            printBoardOk(board)
+            Tablero.imprimirTablero(tablero)
             println("¡El jugador $winner ha ganado!")
             endGame = true
-        } else if (isBoardFullOk(board)) {
-            printBoardOk(board)
+        } else if (Tablero.tableroLLeno(tablero)) {
+            Tablero.imprimirTablero(tablero)
             println("El juego ha terminado en empate.")
             endGame = false
         }
@@ -112,6 +112,7 @@ fun juegoOk() {
         currentPlayer = switchPlayerOk(currentPlayer)
     }
 }
+
 
 fun main() {
     juegoOk()
